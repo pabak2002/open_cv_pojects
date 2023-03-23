@@ -1,1 +1,0 @@
-web: sh setup.sh && streamlit run Live_cam_image_convert_to_b&w.py
