@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Image converter to B&W</title>
+  <meta name="description" content="A Colour to B&W Streamlit application with OpenCV ">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.1.0/build/stlite.js"></script>
+  <script>
+    stlite.mount({
+      requirements: ["opencv-python"],
+      entrypoint: "streamlit_app.py",
+      files: {
+        "streamlit_app.py": `
+        
+        import cv2
+# faceCascade=cv2.CascadeClassifier("D:\opencv_practice\harcascade_files\haarcascade_frontalface_default.xml")
+cap=cv2.VideoCapture(0)
+
+img_counter=0
+
+while True:
+    ret,frame=cap.read()
+
+    if not ret:
+        break
+    cv2.imshow("images",frame)
+
+    k=cv2.waitKey(1)
+
+    if(k%256==113):
+        print("'q' pressed.......closing app")
+        break
+
+    elif k%256==32:
+        img_name="opencv_frame_{}.png".format(img_counter)
+        cv2.imwrite(img_name,frame)
+        print("screenshot taken")
+        img_counter+=1
+
+
+
+for i in range(img_counter):
+    img=cv2.imread(r'opencv_frame_{}.png'.format(i))
+    gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    # thresh,img_black=cv2.threshold(gray,170,255,cv2.THRESH_BINARY)
+    cv2.imshow('Original image',img)
+    cv2.imshow('Gray image',gray)
+    # cv2.imshow('B/W image',img_black)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+`
+      },
+    },
+    document.getElementById("root"))
+  </script>
+</body>
+</html>
