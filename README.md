@@ -1,1 +1,1 @@
-# open_cv_pojects
+# open_cv_projects
